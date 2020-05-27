@@ -11,25 +11,25 @@ jobs:
 
       # Install the Exabuster Dependencies
       - name: Install Exabuster Dependencies
-          run: pip3 install docopt==0.6.1 pyquery==1.2.8
+        run: pip3 install docopt==0.6.1 pyquery==1.2.8
 
       # Install the Ghost blogging platform
       - name: Install Ghost
-          run: npm install ghost-cli@latest -g
+        run: npm install ghost-cli@latest -g
 
       # Go to a child folder
       - name: Make Working Directory
-          run: mkdir TempGhostSite
+        run: mkdir TempGhostSite
 
       # Create a fresh ghost install
       - name: Make Executable Ghost Instance
-          run: ghost install local
-          working-directory: ./TempGhostSite
+        run: ghost install local
+        working-directory: ./TempGhostSite
 
       # Run "ghost stop"
       - name: Stop Ghost Instance Execution (for now)
-          run: ghost stop
-          working-directory: ./TempGhostSite
+        run: ghost stop
+        working-directory: ./TempGhostSite
 
       # Cache
       - uses: actions/cache@v2
@@ -46,19 +46,19 @@ jobs:
 
       # Copy the contents of the repo into the fresh ghost install
       - name: Copy Repository Files to Working Directory
-          run: |
-            cp -vR ./TempGhostRepo/contents ./TempGhostSite
-            cp -v ./TempGhostRepo/config.development.json ./TempGhostSite
+        run: |
+          cp -vR ./TempGhostRepo/contents ./TempGhostSite
+          cp -v ./TempGhostRepo/config.development.json ./TempGhostSite
 
       # Go into folder and run "ghost start"
       - name: Copy Repository Files to Working Directory
-          run: ghost start
-          working-directory: ./TempGhostSite
+        run: ghost start
+        working-directory: ./TempGhostSite
 
       # Go to parent folder and run Exabuster
       - name: Copy Repository Files to Working Directory
-          run: python3 ./TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
-          working-directory: ./TempGhostSite
+        run: python3 ./TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
+        working-directory: ./TempGhostSite
 
       # Upload the results
       - name: Upload build artifacts
