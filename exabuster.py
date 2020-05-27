@@ -34,8 +34,9 @@ def main():
         static_path = os.path.join(os.getcwd(), 'static')
 
     if arguments['generate']:
-        print("Waiting for Server to Start up...")
-        time.sleep(5)
+        if sys.platform != 'win32':
+          print("Waiting for Server to Start up...")
+          time.sleep(5)
         
         command = ("wget "
                    "-e robots=off "
@@ -55,13 +56,14 @@ def main():
           os.system(command)
 
         # copy sitemap files since Ghost 0.5.7
-        getFile("/404.html")
-        getFile("/sitemap.xsl")
-        getFile("/sitemap.xml")
-        getFile("/sitemap-pages.xml")
-        getFile("/sitemap-posts.xml")
-        getFile("/sitemap-authors.xml")
-        getFile("/sitemap-tags.xml")
+        if sys.platform != 'win32':
+          getFile("/404.html")
+          getFile("/sitemap.xsl")
+          getFile("/sitemap.xml")
+          getFile("/sitemap-pages.xml")
+          getFile("/sitemap-posts.xml")
+          getFile("/sitemap-authors.xml")
+          getFile("/sitemap-tags.xml")
 
         # remove query string since Ghost 0.4
         file_regex = re.compile(r'.*?(\?.*)')
