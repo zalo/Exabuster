@@ -38,11 +38,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
-          path: ./TempGhostRepo
+        #  path: ./TempGhostRepo
 
       # Copy the contents of the repo into the fresh ghost install
       - name: Copy Repository Files to Working Directory
-        run: cp -vR TempGhostRepo/content TempGhostSite
+        run: cp -vR content TempGhostSite
 
       # Go into folder and run "ghost start"
       - name: Start Ghost Server
@@ -51,7 +51,7 @@ jobs:
 
       # Go to parent folder and run Exabuster
       - name: Generate Static Site with Exabuster
-        run: python3 TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=zalo.github.io/Exabuster
+        run: python3 exabuster.py generate --domain=localhost:2368 --new-domain=zalo.github.io/Exabuster
 
       # Deploy to local repo
       - name: Push artifacts to the gh-pages branch
