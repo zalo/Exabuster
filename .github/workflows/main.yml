@@ -40,6 +40,12 @@ jobs:
           lfs: true
         #  path: ./TempGhostRepo
 
+      # Debug
+      - name: Debug Print Files
+        run: |
+          ls
+          ls TempGhostSite
+
       # Copy the contents of the repo into the fresh ghost install
       - name: Copy Repository Files to Working Directory
         run: cp -vR content TempGhostSite
