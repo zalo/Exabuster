@@ -119,7 +119,7 @@ def main():
 
           if(len(filePath) > 1):
             #print("Path at " + filePath)
-            if not path.exists(static_path+"/" + filePath):
+            if (not filePath.endswith("/") and (not path.exists(static_path+"/" + filePath))):
               print("[WARNING] " + filePath + " was not downloaded by wget earlier")
               # If not, wget it
               getFile(filePath)
@@ -145,9 +145,10 @@ def main():
                             print("Fixing localhost references in ", filepath)
                             # Check if the file this path represents exists, and if not, wget it
                             newtext = re.sub((r"%s" % arguments['--domain']) + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, filetext)
-                            newtext = re.sub((r"%s" % "/assets/built") + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, filetext)
-                            newtext = re.sub(r"%s" % "\"/assets/built/", "\"" + arguments['--new-domain'] + "/assets/built/", filetext) # Cleanup anything I miss
-                            newtext = re.sub(r"%s" % arguments['--domain'], arguments['--new-domain'], filetext) # Cleanup anything I miss
+                            newtext = re.sub((r"%s" % "/assets/built") + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, newtext)
+                            newtext = re.sub(r"%s" % "\"/assets/built/", "\""+ arguments['--new-domain'] + "/assets/built/", newtext)
+                            newtext = re.sub(r"%s" % "/favicon.ico", arguments['--new-domain'] + "/favicon.ico", newtext)
+                            newtext = re.sub(r"%s" % arguments['--domain'], arguments['--new-domain'], newtext) # Cleanup anything I miss
                         with open(filepath, 'w', encoding='utf-8-sig') as f:
                             f.write(newtext)
 

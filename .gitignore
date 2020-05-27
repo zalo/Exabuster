@@ -4,6 +4,11 @@ current
 .ghost-cli
 .ghostpid
 
+# Exabuster Files
+static/*
+!static/.nojekyll
+config.development.json
+
 # Logs
 logs
 *.log
