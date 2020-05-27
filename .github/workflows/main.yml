@@ -66,7 +66,9 @@ jobs:
 
       # Go to parent folder and run Exabuster
       - name: Generate Static Site with Exabuster
-        run: python3 TempGhostRepo/exabuster.py generate --domain=http://localhost:2368 --new-domain=http://localhost:9000
+        run: |
+          sleep 5
+          python3 TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
       # working-directory: ./TempGhostSite
 
       # Upload the results
