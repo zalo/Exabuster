@@ -39,12 +39,12 @@ jobs:
       #    path: TempGhostSite
       #    key: TempGhostSite
 
-      ## Checkout
-      #- name: Checkout repository
-      #  uses: actions/checkout@v2
-      #  with:
-      #    lfs: true
-      #    path: ./TempGhostRepo
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+          path: ./TempGhostRepo
 
       ## Debug
       #- name: Debug Print Files
