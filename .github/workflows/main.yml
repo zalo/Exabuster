@@ -47,23 +47,16 @@ jobs:
           path: ./TempGhostRepo
 
       # Debug
-      - name: Print Files in Current Directory
-        run: ls
-
-      # Debug
-      - name: Print Files in Site Directory
-        run: ls
-        working-directory: ./TempGhostSite
-
-      # Debug
-      - name: Print Files in Repo Directory
-        run: ls
-        working-directory: ./TempGhostRepo
+      - name: Debug Print Files
+        run: |
+          ls
+          ls TempGhostSite
+          ls TempGhostRepo
 
       # Copy the contents of the repo into the fresh ghost install
       - name: Copy Repository Files to Working Directory
         run: |
-          cp -vR TempGhostRepo/contents TempGhostSite
+          cp -vR TempGhostRepo/content TempGhostSite
           cp -v TempGhostRepo/config.development.json TempGhostSite
 
       # Go into folder and run "ghost start"
