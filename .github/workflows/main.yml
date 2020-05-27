@@ -19,6 +19,13 @@ jobs:
       - name: Install Ghost
         run: sudo npm install ghost-cli@latest -g
 
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+        #  path: ./TempGhostRepo
+
       # Go to a child folder
       - name: Make Working Directory
         run: mkdir TempGhostSite
@@ -32,13 +39,6 @@ jobs:
       - name: Stop Ghost Instance Execution (for now)
         run: ghost stop
         working-directory: ./TempGhostSite
-
-      # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          lfs: true
-        #  path: ./TempGhostRepo
 
       # Debug
       - name: Debug Print Files
