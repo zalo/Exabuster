@@ -33,12 +33,6 @@ jobs:
       #  run: ghost stop
       #  working-directory: ./TempGhostSite
 
-      ## Cache
-      #- uses: actions/cache@v2
-      #  with:
-      #    path: TempGhostSite
-      #    key: TempGhostSite
-
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -46,18 +40,10 @@ jobs:
           lfs: true
           path: ./TempGhostRepo
 
-      ## Debug
-      #- name: Debug Print Files
-      #  run: |
-      #    ls
-      #    ls TempGhostSite
-      #    ls TempGhostRepo
-
       ## Copy the contents of the repo into the fresh ghost install
       #- name: Copy Repository Files to Working Directory
       #  run: |
       #    cp -vR TempGhostRepo/content TempGhostSite
-      ## cp -v TempGhostRepo/config.development.json TempGhostSite
 
       ## Go into folder and run "ghost start"
       #- name: Start Ghost Server
@@ -66,15 +52,20 @@ jobs:
 
       # Go to parent folder and run Exabuster
       - name: Generate Static Site with Exabuster
-        run: |
-          sleep 5
-          python3 TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
-      # working-directory: ./TempGhostSite
+        run: python3 TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
 
       # Upload the results
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          name: Static Ghost Blog
+          name: Ghost Blog
           path: static
+
+      # Upload the results
+      - name: Upload Ghost Logs
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: Ghost Logs
+          path: TempGhostSite/content/logs
