@@ -74,6 +74,7 @@ jobs:
 
       # Run "ghost stop"
       - name: Stop Ghost Instance to Copy Content
+        if: steps.cache-ghost.outputs.cache-hit != 'true'
         run: ghost stop
         working-directory: ./TempGhostSite
 

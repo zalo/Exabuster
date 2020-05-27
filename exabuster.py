@@ -36,7 +36,7 @@ def main():
     if arguments['generate']:
         if sys.platform != 'win32':
           print("Waiting for Server to Start up...")
-          time.sleep(5)
+          time.sleep(2)
         
         command = ("wget "
                    "-e robots=off "
