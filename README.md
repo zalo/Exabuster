@@ -1,2 +1,3 @@
 # Exabuster
- A static site generator for Ghost
+
+Exabuster will be eventually be a static site generator for ghost triggered by Github Actions
