@@ -51,7 +51,16 @@ jobs:
 
       # Go to parent folder and run Exabuster
       - name: Generate Static Site with Exabuster
-        run: python3 TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
+        run: python3 TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=zalo.github.io/Exabuster
+
+      # Deploy to local repo
+      - name: Push artifacts to the gh-pages branch
+        uses: s0/git-publish-subdir-action@master
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: static
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload the results
       - name: Upload build artifacts

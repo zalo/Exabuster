@@ -34,6 +34,7 @@ def main():
         static_path = os.path.join(os.getcwd(), 'static')
 
     if arguments['generate']:
+        print("Waiting for Server to Start up...")
         time.sleep(5)
         
         command = ("wget "
