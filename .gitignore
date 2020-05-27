@@ -4,9 +4,6 @@ current
 .ghost-cli
 .ghostpid
 
-# Exabuster generated files
-static
-
 # Logs
 logs
 *.log
