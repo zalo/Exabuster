@@ -39,6 +39,15 @@ jobs:
           path: TempGhostSite
           key: TempGhostSite
 
+      # Debug
+      - name: Print Files in Current Directory
+        run: ls
+
+      # Debug
+      - name: Print Files in Repo Directory
+        run: ls
+        working-directory: ./TempGhostSite
+
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
