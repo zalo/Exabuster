@@ -17,6 +17,7 @@ import os.path
 from os import path
 import re
 import sys
+import time
 import fnmatch
 import socketserver
 import http.server
@@ -33,6 +34,8 @@ def main():
         static_path = os.path.join(os.getcwd(), 'static')
 
     if arguments['generate']:
+        time.sleep(5)
+        
         command = ("wget "
                    "-e robots=off "
                    "--recursive "             # follow links to download entire site
