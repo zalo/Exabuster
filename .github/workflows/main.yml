@@ -11,7 +11,9 @@ jobs:
 
       # Install the Exabuster Dependencies
       - name: Install Exabuster Dependencies
-        run: pip3 install setuptools docopt==0.6.1 pyquery==1.2.8
+        run: |
+          pip3 install setuptools
+          pip3 install docopt==0.6.1 pyquery==1.2.8
 
       # Install the Ghost blogging platform
       - name: Install Ghost
