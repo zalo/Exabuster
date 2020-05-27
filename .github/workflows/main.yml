@@ -28,10 +28,10 @@ jobs:
         run: ghost install local
         working-directory: ./TempGhostSite
 
-      ## Run "ghost stop"
-      #- name: Stop Ghost Instance Execution (for now)
-      #  run: ghost stop
-      #  working-directory: ./TempGhostSite
+      # Run "ghost stop"
+      - name: Stop Ghost Instance Execution (for now)
+        run: ghost stop
+        working-directory: ./TempGhostSite
 
       # Checkout
       - name: Checkout repository
@@ -40,15 +40,14 @@ jobs:
           lfs: true
           path: ./TempGhostRepo
 
-      ## Copy the contents of the repo into the fresh ghost install
-      #- name: Copy Repository Files to Working Directory
-      #  run: |
-      #    cp -vR TempGhostRepo/content TempGhostSite
+      # Copy the contents of the repo into the fresh ghost install
+      - name: Copy Repository Files to Working Directory
+        run: cp -vR TempGhostRepo/content TempGhostSite
 
-      ## Go into folder and run "ghost start"
-      #- name: Start Ghost Server
-      #  run: ghost start
-      #  working-directory: ./TempGhostSite
+      # Go into folder and run "ghost start"
+      - name: Start Ghost Server
+        run: ghost start
+        working-directory: ./TempGhostSite
 
       # Go to parent folder and run Exabuster
       - name: Generate Static Site with Exabuster
