@@ -57,7 +57,7 @@ jobs:
       - name: Copy Repository Files to Working Directory
         run: |
           cp -vR TempGhostRepo/content TempGhostSite
-          cp -v TempGhostRepo/config.development.json TempGhostSite
+      # cp -v TempGhostRepo/config.development.json TempGhostSite
 
       # Go into folder and run "ghost start"
       - name: Start Ghost Server
