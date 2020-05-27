@@ -17,7 +17,7 @@ jobs:
 
       # Install the Ghost blogging platform
       - name: Install Ghost
-        run: npm install ghost-cli@latest -g
+        run: sudo npm install ghost-cli@latest -g
 
       # Go to a child folder
       - name: Make Working Directory
