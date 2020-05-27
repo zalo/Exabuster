@@ -124,14 +124,49 @@ def main():
               # If not, wget it
               getFile(filePath)
               getFile(filePath + ".map") # Check if there's a map object
-            else:
-              pass
-              #print("We already have "+filePath)
 
           # After, return the fixed URL
           fixedURL = re.sub(r"%s" % arguments['--domain'], arguments['--new-domain'], match)
 
           return fixedURL
+
+        def grabAndConvertHREF(matchobj):
+          match = matchobj.group(0)
+
+          # Split off the portion after the first /, check if it exists
+          filePath = match.split("href=\"", 1)[-1]
+
+          if filePath.startswith("/") and not arguments['--domain'] in match:
+            if(len(filePath) > 1):
+              #print("Path at " + filePath)
+              if (not filePath.endswith("/") and (not path.exists(static_path+"/" + filePath))):
+                print("[WARNING] " + filePath + " was not downloaded by wget earlier")
+                # If not, wget it
+                getFile(filePath)
+                getFile(filePath + ".map") # Check if there's a map object
+
+            return "href=\"" + arguments['--domain'] + filePath
+
+          return match
+
+        def grabAndConvertSRC(matchobj):
+          match = matchobj.group(0)
+
+          # Split off the portion after the first /, check if it exists
+          filePath = match.split("src=\"", 1)[-1]
+
+          if filePath.startswith("/") and not filePath.startswith("//") and not arguments['--domain'] in match:
+            if(len(filePath) > 1):
+              #print("Path at " + filePath)
+              if (not filePath.endswith("/") and (not path.exists(static_path+"/" + filePath))):
+                print("[WARNING] " + filePath + " was not downloaded by wget earlier")
+                # If not, wget it
+                getFile(filePath)
+                getFile(filePath + ".map") # Check if there's a map object
+
+            return "src=\"" + arguments['--domain'] + filePath
+
+          return match
 
         # fix all localhost references, if new domain given
         if arguments['--new-domain']:
@@ -143,11 +178,14 @@ def main():
                         with open(filepath, encoding='utf8') as f:
                             filetext = f.read()
                             print("Fixing localhost references in ", filepath)
+
                             # Check if the file this path represents exists, and if not, wget it
-                            newtext = re.sub((r"%s" % arguments['--domain']) + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, filetext)
-                            newtext = re.sub((r"%s" % "/assets/built") + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, newtext)
-                            newtext = re.sub(r"%s" % "\"/assets/built/", "\""+ arguments['--new-domain'] + "/assets/built/", newtext)
-                            newtext = re.sub(r"%s" % "/favicon.ico", arguments['--new-domain'] + "/favicon.ico", newtext)
+                            newtext = re.sub((r"%s" % "href=\"") + r"[^\'|\"|\<|\>|\?]*", grabAndConvertHREF, filetext)
+                            newtext = re.sub((r"%s" % "src=\"" ) + r"[^\'|\"|\<|\>|\?]*", grabAndConvertSRC ,  newtext)
+                            newtext = re.sub((r"%s" % arguments['--domain']) + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, newtext)
+                            #newtext = re.sub((r"%s" % "/assets/built") + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, newtext)
+                            #newtext = re.sub(r"%s" % "\"/assets/built/", "\""+ arguments['--new-domain'] + "/assets/built/", newtext)
+                            #newtext = re.sub(r"%s" % "/favicon.ico", arguments['--new-domain'] + "/favicon.ico", newtext)
                             newtext = re.sub(r"%s" % arguments['--domain'], arguments['--new-domain'], newtext) # Cleanup anything I miss
                         with open(filepath, 'w', encoding='utf-8-sig') as f:
                             f.write(newtext)
