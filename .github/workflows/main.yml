@@ -24,19 +24,28 @@ jobs:
           # npm cache files are stored in `~/.npm` on Linux/macOS
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-
-          restore-keys: |
-            ${{ runner.os }}-build-
 
       # Attempt to Load Pip Package Cache
       - name: Cache Pip Packages
         uses: actions/cache@v2
+        env:
+          cache-name: cache-pip-packages
         with:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-
-          restore-keys: |
-            ${{ runner.os }}-
+          # Look to see if there is a cache hit
+          key: ${{ runner.os }}-pip-${{ env.cache-name }}-
+
+      # Attempt to Load Ghost CMS Cache
+      - name: Cache Ghost Install
+        id: cache-ghost
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-ghost-cms
+        with:
+          path: ./TempGhostSite
+          # Look to see if there is a cache hit
+          key: ${{ runner.os }}-ghost-${{ env.cache-name }}-
 
       # Install the Exabuster Dependencies
       - name: Install Exabuster Dependencies
@@ -50,10 +59,12 @@ jobs:
 
       # Go to a child folder
       - name: Make Working Directory
+        if: steps.cache-ghost.outputs.cache-hit != 'true'
         run: mkdir TempGhostSite
 
       # Create a fresh ghost install
       - name: Make Executable Ghost Instance and Start
+        if: steps.cache-ghost.outputs.cache-hit != 'true'
         run: ghost install local
         working-directory: ./TempGhostSite
 
