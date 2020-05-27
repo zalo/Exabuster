@@ -17,6 +17,7 @@ jobs:
 
       # Attempt to Load Node Module Cache
       - name: Cache Node Modules
+        id: cache-node
         uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
@@ -27,6 +28,7 @@ jobs:
 
       # Attempt to Load Pip Package Cache
       - name: Cache Pip Packages
+        id: cache-pip
         uses: actions/cache@v2
         env:
           cache-name: cache-pip-packages
@@ -49,12 +51,14 @@ jobs:
 
       # Install the Exabuster Dependencies
       - name: Install Exabuster Dependencies
+        #if: steps.cache-pip.outputs.cache-hit != 'true'
         run: |
           pip3 install setuptools wheel
           pip3 install docopt==0.6.1 pyquery==1.2.8
 
       # Install the Ghost blogging platform
       - name: Install Ghost
+        #if: steps.cache-node.outputs.cache-hit != 'true'
         run: sudo npm install ghost-cli@latest -g
 
       # Go to a child folder
@@ -114,4 +118,3 @@ jobs:
         with:
           name: Ghost Logs
           path: TempGhostSite/content/logs
-
