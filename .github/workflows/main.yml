@@ -12,7 +12,7 @@ jobs:
       # Install the Exabuster Dependencies
       - name: Install Exabuster Dependencies
         run: |
-          pip3 install setuptools
+          pip3 install setuptools wheel
           pip3 install docopt==0.6.1 pyquery==1.2.8
 
       # Install the Ghost blogging platform
@@ -39,21 +39,26 @@ jobs:
           path: TempGhostSite
           key: TempGhostSite
 
-      # Debug
-      - name: Print Files in Current Directory
-        run: ls
-
-      # Debug
-      - name: Print Files in Repo Directory
-        run: ls
-        working-directory: ./TempGhostSite
-
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           lfs: true
           path: ./TempGhostRepo
+
+      # Debug
+      - name: Print Files in Current Directory
+        run: ls
+
+      # Debug
+      - name: Print Files in Site Directory
+        run: ls
+        working-directory: ./TempGhostSite
+
+      # Debug
+      - name: Print Files in Repo Directory
+        run: ls
+        working-directory: ./TempGhostRepo
 
       # Copy the contents of the repo into the fresh ghost install
       - name: Copy Repository Files to Working Directory
@@ -62,12 +67,12 @@ jobs:
           cp -v ./TempGhostRepo/config.development.json ./TempGhostSite
 
       # Go into folder and run "ghost start"
-      - name: Copy Repository Files to Working Directory
+      - name: Start Ghost Server
         run: ghost start
         working-directory: ./TempGhostSite
 
       # Go to parent folder and run Exabuster
-      - name: Copy Repository Files to Working Directory
+      - name: Generate Static Site with Exabuster
         run: python3 ./TempGhostRepo/exabuster.py generate --domain=localhost:2368 --new-domain=localhost:9000
         working-directory: ./TempGhostSite
 
