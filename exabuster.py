@@ -146,6 +146,7 @@ def main():
                             # Check if the file this path represents exists, and if not, wget it
                             newtext = re.sub((r"%s" % arguments['--domain']) + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, filetext)
                             newtext = re.sub((r"%s" % "/assets/built") + r"[^\'|\"|\<|\>|\?]*", grabAndConvert, filetext)
+                            newtext = re.sub(r"%s" % "\"/assets/built/", "\"" + arguments['--new-domain'] + "/assets/built/", filetext) # Cleanup anything I miss
                             newtext = re.sub(r"%s" % arguments['--domain'], arguments['--new-domain'], filetext) # Cleanup anything I miss
                         with open(filepath, 'w', encoding='utf-8-sig') as f:
                             f.write(newtext)
